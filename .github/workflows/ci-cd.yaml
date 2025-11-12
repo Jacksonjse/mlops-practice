@@ -38,6 +38,10 @@ jobs:
               with:
                 name: model-artifact
                 path: .
+            - name: Verify Dockerfile exists
+              run: |
+                echo "Current directory: $(pwd)"
+                     ls -l Dockerfile
             
             - name: Docker build
               run: docker build -t ci-cd-app .
