@@ -38,13 +38,10 @@ jobs:
               with:
                 name: model-artifact
                 path: .
-            - name: Verify Dockerfile exists
-              run: |
-                echo "Current directory: $(pwd)"
-                     ls -l Dockerfile
+
             
             - name: Docker build
-              run: docker build -t ci-cd-app -f C:\Users\Jackson Jesse\Desktop\mlops study\Dockerfile .
+              run: docker build -t ci-cd-app .
 
             - name: Docker Run
               run: docker run -d -p 5000:5000 --name container ci-cd-app
