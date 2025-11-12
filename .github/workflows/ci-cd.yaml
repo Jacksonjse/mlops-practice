@@ -24,7 +24,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with: 
                  name: model-artifact
-                 path: random-model.pkl
+                 path: rd_model_test.pkl
     deploy:
         needs: train
         runs-on: ubuntu-latest
@@ -36,7 +36,7 @@ jobs:
             - name: Download artifact
               uses: actions/download-artifact@v4
               with:
-                name: random-model.pkl
+                name: rf_model_test.pkl
                 path: .
             
             - name: Docker build
