@@ -24,7 +24,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with: 
                  name: model-artifact
-                 path: rd_model_test.pkl
+                 path: rf_model_test.pkl
     deploy:
         needs: train
         runs-on: ubuntu-latest
