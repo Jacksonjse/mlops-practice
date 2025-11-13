@@ -2,46 +2,35 @@ name: ci-cd
 on: [push]
 
 jobs:
-    train:
-        runs-on: ubuntu-latest
+  train:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout to Repo
-              uses: actions/checkout@v4
+    steps:
+      - name: checkout branch
+        uses: actions/checkout@v4
+      - name: setup python env
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: install dependencies
+        run: pip install -r requirements.txt
+      - name: train the model
+        run: python random_forest.py
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: model.pkl
+          path: rf_model_test.pkl
+  deploy:
+    needs: train
+    runs-on: ubuntu-latest
 
-            - name: Setup python env
-              uses: actions/setup-python@v4
-              with:
-                python-version: "3.11"
-
-            - name: Install the requirements
-              run:  pip install -r requirements.txt
-
-            - name: Train the model
-              run: python random_forest.py
-
-            - name: Save the model as artifact
-              uses: actions/upload-artifact@v4
-              with: 
-                 name: model-artifact
-                 path: rf_model_test.pkl
-    deploy:
-        needs: train
-        runs-on: ubuntu-latest
-
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-
-            - name: Download artifact
-              uses: actions/download-artifact@v4
-              with:
-                name: model-artifact
-                path: .
-
-            
-            - name: Docker build
-              run: docker build -t ci-cd-app .
-
-            - name: Docker Run
-              run: docker run -d -p 5000:5000 --name container ci-cd-app
+    steps:
+      - name: checkout branch
+        uses: actions/checkout@v4
+      - name: download artifact
+        uses: actions/download-artifact@v4
+      - name: build docker image
+        run: docker build -t ci-cd-app .
+      - name: run docker image
+        run: docker run -p 5000:5000 --name container-morning-3 cci-cd-app
