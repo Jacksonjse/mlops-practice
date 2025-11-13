@@ -7,7 +7,7 @@ app = Flask(__name__)
 with open('rf_model_test.pkl', 'rb') as f:
     model = pickle.load(f)
 
-@app.route('/predict', methods=[GET])
+@app.route('/predict', methods=["GET"])
 def predict():
 
     features = [6, 90, 234, 115, 66.7, 45, 54, 98]
