@@ -33,4 +33,4 @@ jobs:
       - name: build docker image
         run: docker build -t ci-cd-app .
       - name: run docker image
-        run: docker run -p 5000:5000 --name container-morning-3 cci-cd-app
+        run: docker run -p 5000:5000 --name container-morning-3 ci-cd-app
